@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import myConstants from '../../config/constants';
 
 export const modalSlice = createSlice({
   name: 'modal',
@@ -11,11 +12,19 @@ export const modalSlice = createSlice({
   },
   reducers: {
     showModal: (state, action) => {
-      state.type = action.payload.type;
-      state.title = action.payload.title;
-      state.body = action.payload.body;
-      state.visible = true;
-      state.closable = action.payload.closable;
+      if (action.payload) {
+        state.type = action.payload.type;
+        state.title = action.payload.title;
+        state.body = action.payload.body;
+        state.visible = true;
+        state.closable = action.payload.closable;
+      } else {
+        state.type = myConstants.loading;
+        state.title = 'Loading';
+        state.body = 'Pleae Wait...';
+        state.visible = true;
+        state.closable = false;
+      }
     },
     hideModal: state => {
       (state.title = ''), (state.body = ''), (state.visible = false);

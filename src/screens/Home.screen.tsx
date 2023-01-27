@@ -5,6 +5,9 @@ import DatePicker from 'react-native-date-picker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import formatDateYYYYMMDD from '../helpers/formatDate';
 import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import {fetchData, showModal} from '../redux/store';
+import myConstants from '../config/constants';
 
 const Home = () => {
   const [fromDate, setFromDate] = useState(new Date());
@@ -12,12 +15,28 @@ const Home = () => {
   const [fromDatePickerStatus, setFromDatePickerStatus] = useState(false);
   const [toDatePickerStatus, setToDatePickerStatus] = useState(false);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const btnPressed = () => {
     fromDate.setHours(0, 0, 0, 0);
     toDate.setHours(0, 0, 0, 0);
-    console.log('Pressed', formatDateYYYYMMDD(fromDate));
-    navigation.navigate('Report' as never);
+    console.log('Pressed', toDate - fromDate);
+    toDate - fromDate >= 0
+      ? dispatch(
+          fetchData({
+            FROM_DATE: formatDateYYYYMMDD(fromDate),
+            TO_DATE: formatDateYYYYMMDD(toDate),
+          }),
+        )
+      : dispatch(
+          showModal({
+            title: 'From Date Error!',
+            type: myConstants.warning,
+            body: 'To date should be larger then or equal to from date.',
+            closable: true,
+          }),
+        );
+    //navigation.navigate('Report' as never);
   };
 
   return (
