@@ -20,23 +20,25 @@ const Home = () => {
   const btnPressed = () => {
     fromDate.setHours(0, 0, 0, 0);
     toDate.setHours(0, 0, 0, 0);
-    console.log('Pressed', toDate - fromDate);
-    toDate - fromDate >= 0
-      ? dispatch(
-          fetchData({
-            FROM_DATE: formatDateYYYYMMDD(fromDate),
-            TO_DATE: formatDateYYYYMMDD(toDate),
-          }),
-        )
-      : dispatch(
-          showModal({
-            title: 'From Date Error!',
-            type: myConstants.warning,
-            body: 'To date should be larger then or equal to from date.',
-            closable: true,
-          }),
-        );
-    //navigation.navigate('Report' as never);
+    console.log('Pressed', toDate, fromDate, toDate - fromDate);
+    if (toDate - fromDate >= 0) {
+      dispatch(
+        fetchData({
+          FROM_DATE: formatDateYYYYMMDD(fromDate),
+          TO_DATE: formatDateYYYYMMDD(toDate),
+        }),
+      );
+      navigation.navigate('Report' as never);
+    } else {
+      dispatch(
+        showModal({
+          title: 'From Date Error!',
+          type: myConstants.warning,
+          body: 'To date should be larger then or equal to from date.',
+          closable: true,
+        }),
+      );
+    }
   };
 
   return (
