@@ -30,7 +30,14 @@ export const fetchData = createAsyncThunk(
             .kilometers_per_hour,
         id: tempdata[0].id,
       },
-      data: {},
+      data: {
+        labels: [],
+        datasets: [
+          {
+            data: [],
+          },
+        ],
+      },
     };
     // Sort based on distance in kilometer
     tempdata.sort(
@@ -60,10 +67,19 @@ export const fetchData = createAsyncThunk(
     };
     // array of all the dates
     let keys = Object.keys(response.data.near_earth_objects);
+    keys = keys.sort();
     // store number of asteroids per day as an object
     for (let i = 0; i < keys.length; i++) {
-      result.data = {...result.data, [keys[i]]: x[i].length};
+      //result.data = {...result.data, [keys[i]]: x[i].length};
+      result.data.labels.push(keys[i]);
+      result.data.datasets[0].data.push(x[i].length);
     }
+    // For extra space on right hand side
+    if (result.data.labels.length > 6) {
+      result.data.labels.push('');
+      result.data.datasets[0].data.push(0);
+    }
+
     return result;
   },
 );
@@ -73,7 +89,14 @@ type SliceState = {
     averageSize: number;
     closest_asteroid: {distance: string; id: string};
     fastest_asteroid: {speed: string; id: string};
-    data: any;
+    data: {
+      labels: string[];
+      datasets: [
+        {
+          data: number[];
+        },
+      ];
+    };
   } | null;
   status: string;
   error: string;
@@ -88,11 +111,17 @@ const initialState: SliceState = {
 const NeoFeedSlice = createSlice({
   name: 'neofeedslice',
   initialState,
-  reducers: {},
+  reducers: {
+    resetData: state => {
+      state.data = null;
+      state.status = myConstants.idle;
+      state.error = '';
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchData.pending, (state, action) => {
-        state.status = myConstants.loading;
+        state.status = myConstants.pending;
       })
       .addCase(fetchData.rejected, (state, action) => {
         state.error = action.error.message
@@ -108,4 +137,5 @@ const NeoFeedSlice = createSlice({
   },
 });
 
+export const {resetData} = NeoFeedSlice.actions;
 export default NeoFeedSlice.reducer;

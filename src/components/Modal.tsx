@@ -9,17 +9,23 @@ import warningImg from '../assets/warning.gif';
 import {hideModal, RootState} from '../redux/store';
 import {useSelector, useDispatch} from 'react-redux';
 
-const MyModal = () => {
-  const visible = useSelector((state: RootState) => state.modalReducer.visible);
-  const type = useSelector((state: RootState) => state.modalReducer.type);
-  const title = useSelector((state: RootState) => state.modalReducer.title);
-  const body = useSelector((state: RootState) => state.modalReducer.body);
-  const dispatch = useDispatch();
+type MyModalType = {
+  visible: boolean;
+  type: string;
+  title: string;
+  body: string;
+  closable: boolean;
+  hideCallBack: Function;
+};
 
-  const closable = useSelector(
-    (state: RootState) => state.modalReducer.closable,
-  );
-
+const MyModal = ({
+  visible,
+  type,
+  title,
+  body,
+  closable,
+  hideCallBack,
+}: MyModalType) => {
   return (
     <Modal animationType="slide" visible={visible}>
       <View
@@ -36,7 +42,7 @@ const MyModal = () => {
               textAlign: 'center',
             }}
           />
-          <Card.Cover source={reqImg(type)} />
+          <Card.Cover source={reqImg(type)} style={{margin: 40}} />
           <Card.Content>
             <Text style={{textAlign: 'center'}}>{body}</Text>
           </Card.Content>
@@ -44,7 +50,7 @@ const MyModal = () => {
             {closable && (
               <TouchableOpacity
                 onPress={() => {
-                  dispatch(hideModal());
+                  hideCallBack();
                 }}>
                 <Button mode="outlined">Close</Button>
               </TouchableOpacity>
@@ -59,7 +65,6 @@ const MyModal = () => {
 export default MyModal;
 
 const reqImg = (type: string) => {
-  console.log('type:', type);
   if (type === myConstants.error) return errorImg;
   if (type === myConstants.warning) return warningImg;
   if (type === myConstants.loading) return loadingImg;

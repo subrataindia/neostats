@@ -20,7 +20,7 @@ const Home = () => {
   const btnPressed = () => {
     fromDate.setHours(0, 0, 0, 0);
     toDate.setHours(0, 0, 0, 0);
-    console.log('Pressed', toDate, fromDate, toDate - fromDate);
+
     if (toDate - fromDate >= 0) {
       dispatch(
         fetchData({
@@ -62,7 +62,6 @@ const Home = () => {
         <Card.Content style={{marginTop: 10}}>
           <TouchableOpacity
             onPress={() => {
-              console.log('Pressed!');
               setFromDatePickerStatus(true);
             }}
             style={{...style.dateInput}}>

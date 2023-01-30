@@ -27,7 +27,10 @@ export const modalSlice = createSlice({
       }
     },
     hideModal: state => {
-      (state.title = ''), (state.body = ''), (state.visible = false);
+      state.title = '';
+      state.body = '';
+      state.visible = false;
+      state.type = '';
     },
   },
 });
