@@ -2,7 +2,6 @@ const {default: myConstants} = require('../config/constants');
 const {showModal, hideModal} = require('../redux/store');
 
 const handleModal = (status, dispatch) => {
-  //const dispatch = useDispatch();
   if (status === myConstants.pending) {
     dispatch(
       showModal({

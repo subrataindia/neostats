@@ -1,37 +1,28 @@
 import {View, Text} from 'react-native';
 import React from 'react';
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart,
-} from 'react-native-chart-kit';
-import {Card} from 'react-native-paper';
+import {BarChart} from 'react-native-chart-kit';
+import {BarChartDataType} from '../config/types';
 
-const MyBarChart = ({
-  data,
-  width,
-  height,
-}: {
-  data: any;
+type MyBarChartType = {
+  data: BarChartDataType | null;
   width: number;
   height: number;
-}) => {
+};
+
+const MyBarChart = ({data, width, height}: MyBarChartType) => {
   return (
     <>
       {data ? (
         <View style={{flex: 1}}>
           <BarChart
             style={{
-              marginVertical: 10,
               borderRadius: 20,
             }}
             data={data}
             width={width}
             height={height / 3}
             yAxisLabel=""
+            yAxisSuffix=""
             fromZero
             showBarTops
             showValuesOnTopOfBars

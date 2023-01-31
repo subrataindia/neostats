@@ -1,13 +1,11 @@
 import React from 'react';
-import {Modal, View, Image, Dimensions, TouchableOpacity} from 'react-native';
+import {Modal, View, TouchableOpacity} from 'react-native';
 import {Button, Text, Card} from 'react-native-paper';
 import myConstants from '../config/constants';
 import loadingImg from '../assets/loading.gif';
 import successImg from '../assets/success.gif';
 import errorImg from '../assets/error.gif';
 import warningImg from '../assets/warning.gif';
-import {hideModal, RootState} from '../redux/store';
-import {useSelector, useDispatch} from 'react-redux';
 
 type MyModalType = {
   visible: boolean;

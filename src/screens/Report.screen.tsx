@@ -1,8 +1,7 @@
-import {View, ScrollView, Text} from 'react-native';
+import {ScrollView, Text} from 'react-native';
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Card} from 'react-native-paper';
-import BarChart from '../components/BarChart';
+import {BarChart, CustomCard} from '../components';
 import myConstants from '../config/constants';
 import {resetData, RootState} from '../redux/store';
 import handleModal from '../helpers/handleModal';
@@ -28,39 +27,33 @@ const Report = () => {
 
   if (data) {
     return (
-      <View style={{padding: 10}}>
-        <Card mode="outlined">
-          <Card.Title title={'Fastest Asteroid'} />
-          <Card.Content>
-            <Text>ID: {data?.fastest_asteroid?.id}</Text>
-            <Text>
-              Speed: {Number(data?.fastest_asteroid?.speed).toFixed(2)} Km/h
-            </Text>
-          </Card.Content>
-        </Card>
-        <Card mode="outlined">
-          <Card.Title title={'Closest Asteroid'} />
-          <Card.Content>
-            <Text>ID: {data?.closest_asteroid?.id}</Text>
-            <Text>
-              Distance: {Number(data?.closest_asteroid?.distance).toFixed(3)} Km
-            </Text>
-          </Card.Content>
-        </Card>
-        <Card mode="outlined">
-          <Card.Title title={'Average Size of the Asteroids'} />
-          <Card.Content>
-            <Text>
-              Estimated Diameter: {Number(data?.averageSize).toFixed(3)} Km
-            </Text>
-          </Card.Content>
-        </Card>
+      <ScrollView style={{padding: 10}}>
+        <CustomCard
+          title={'Fastest Asteroid'}
+          content1={`ID: ${data?.fastest_asteroid?.id}`}
+          content2={`Speed: ${Number(data?.fastest_asteroid?.speed).toFixed(
+            2,
+          )} Km/h`}
+        />
+        <CustomCard
+          title={'Closest Asteroid'}
+          content1={`ID: ${data?.closest_asteroid?.id}`}
+          content2={`Distance: ${Number(
+            data?.closest_asteroid?.distance,
+          ).toFixed(3)} Km`}
+        />
+        <CustomCard
+          title={'Average Size of the Asteroids'}
+          content1={`Estimated Diameter: ${Number(data?.averageSize).toFixed(
+            3,
+          )} Km`}
+        />
         <BarChart
           data={data?.data}
           width={myConstants.screenWidth - 20}
           height={myConstants.screenHeight}
         />
-      </View>
+      </ScrollView>
     );
   } else {
     return (

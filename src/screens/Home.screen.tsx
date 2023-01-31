@@ -6,29 +6,29 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import formatDateYYYYMMDD from '../helpers/formatDate';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
-import {fetchData, showModal} from '../redux/store';
+import {AppDispatch, fetchData, showModal} from '../redux/store';
 import myConstants from '../config/constants';
 
 const Home = () => {
-  const [fromDate, setFromDate] = useState(new Date());
-  const [toDate, setToDate] = useState(new Date());
+  const [fromDate, setFromDate] = useState<Date>(new Date());
+  const [toDate, setToDate] = useState<Date>(new Date());
   const [fromDatePickerStatus, setFromDatePickerStatus] = useState(false);
   const [toDatePickerStatus, setToDatePickerStatus] = useState(false);
   const navigation = useNavigation();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const btnPressed = () => {
     fromDate.setHours(0, 0, 0, 0);
     toDate.setHours(0, 0, 0, 0);
 
-    if (toDate - fromDate >= 0) {
+    if (Number(toDate) - Number(fromDate) >= 0) {
       dispatch(
         fetchData({
-          FROM_DATE: formatDateYYYYMMDD(fromDate),
-          TO_DATE: formatDateYYYYMMDD(toDate),
+          FROM_DATE: formatDateYYYYMMDD(Number(fromDate)),
+          TO_DATE: formatDateYYYYMMDD(Number(toDate)),
         }),
       );
-      navigation.navigate('Report' as never);
+      navigation.navigate(myConstants.screens.report as never);
     } else {
       dispatch(
         showModal({

@@ -1,6 +1,7 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
 import myConstants from '../../config/constants';
+import {BarChartDataType} from '../../config/types';
 
 export const fetchData = createAsyncThunk(
   'data/neo',
@@ -89,14 +90,7 @@ type SliceState = {
     averageSize: number;
     closest_asteroid: {distance: string; id: string};
     fastest_asteroid: {speed: string; id: string};
-    data: {
-      labels: string[];
-      datasets: [
-        {
-          data: number[];
-        },
-      ];
-    };
+    data: BarChartDataType;
   } | null;
   status: string;
   error: string;

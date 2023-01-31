@@ -14,6 +14,10 @@ const myConstants = {
   info: 'INFO',
   warning: 'WARNING',
   success: 'SUCCESS',
+  screens: {
+    home: 'Home',
+    report: 'Report',
+  },
 };
 
 export default myConstants;
